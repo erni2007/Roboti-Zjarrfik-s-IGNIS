@@ -100,6 +100,53 @@
             opacity: 1;
             transform: translateY(0);
         }
+		/* ============================= */
+/*        FLAME HOVER FX         */
+/* ============================= */
+
+/* Universal flame wrapper */
+.flame-effect {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Animated flame glow */
+.flame-effect::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: radial-gradient(circle at 50% 120%,
+        rgba(255,140,0,0.6),
+        rgba(255,60,0,0.4),
+        rgba(255,0,0,0.2),
+        transparent 70%);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.4s ease, transform 0.6s ease;
+    z-index: -1;
+}
+
+.flame-effect:hover::before {
+    opacity: 1;
+    transform: scale(1.25);
+    animation: flameFlicker 1.8s infinite alternate ease-in-out;
+}
+
+/* Subtle flicker */
+@keyframes flameFlicker {
+    0%   { filter: blur(8px); }
+    50%  { filter: blur(18px); }
+    100% { filter: blur(10px); }
+}
+
+/* Extra glow shadow */
+.flame-effect:hover {
+    box-shadow: 0 0 35px rgba(255, 80, 0, 0.6),
+                0 0 60px rgba(255, 30, 0, 0.4);
+    transition: box-shadow 0.4s ease;
+}
+
     </style>
 </head>
 <body class="min-h-screen text-white font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden">
@@ -182,7 +229,7 @@
                     <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border border-white/10 group animate-float">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
                         <img 
-                            src="https://images.unsplash.com/photo-1527430253228-e93688616381?auto=format&fit=crop&w=800&q=80" 
+                            src="Foto Kreu.jpg" 
                             alt="Robot Toy" 
                             class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
                         />
@@ -263,7 +310,7 @@
                 <!-- Component 2 -->
                 <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-200">
                     <img 
-                        src="https://images.unsplash.com/photo-1586810147108-a23b62f9b396?auto=format&fit=crop&w=600&q=80" 
+                        src="https://ielectrony.com/wp-content/uploads/2018/09/Flame-Sensor-Module.jpg" 
                         alt="Flame Sensor" 
                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                     />
@@ -276,7 +323,7 @@
                 <!-- Component 3 -->
                 <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-300">
                     <img 
-                        src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=600&q=80" 
+                        src="https://probots.co.in/pub/media/catalog/product/cache/d8ddd0f9b0cd008b57085cd218b48832/l/2/l298-motor-driver-module.jpg" 
                         alt="Motor Driver" 
                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                     />
@@ -289,7 +336,7 @@
                 <!-- Component 4 -->
                 <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-400">
                     <img 
-                        src="https://images.unsplash.com/photo-1687788292176-4b6535c74ac7?auto=format&fit=crop&w=600&q=80" 
+                        src="https://electra.store/wp-content/uploads/2022/07/61tG1XS44XL.jpg" 
                         alt="Water Pump" 
                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
                     />
@@ -400,7 +447,7 @@
                 <div class="lg:w-1/2 reveal">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
                         <img 
-                            src="https://images.unsplash.com/photo-1613929359366-ea94fe51d89f?auto=format&fit=crop&w=800&q=80" 
+                            src="Foto Perdorim.jpg" 
                             alt="Firefighter Rescue" 
                             class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700"
                         />
@@ -429,8 +476,8 @@
                                 <i data-lucide="home" class="w-6 h-6"></i>
                             </div>
                             <div>
-                                <h4 class="text-xl font-bold mb-1">Shtëpitë Inteligjente</h4>
-                                <p class="text-slate-400 text-sm">Integrim në sistemet Smart Home për parandalim.</p>
+                                <h4 class="text-xl font-bold mb-1">Sistemet Inteligjente</h4>
+                                <p class="text-slate-400 text-sm">Integrim në sistemet data center për shuarje të shpejta.</p>
                             </div>
                         </div>
 
@@ -440,7 +487,7 @@
                             </div>
                             <div>
                                 <h4 class="text-xl font-bold mb-1">Ndërhyrja e Shpejtë</h4>
-                                <p class="text-slate-400 text-sm">Akses në zona të rrezikshme për njerëzit.</p>
+                                <p class="text-slate-400 text-sm">Akses në zona të cilat duan ndërhyrje të shpejtë në rast shkëndijash.</p>
                             </div>
                         </div>
                     </div>
@@ -462,15 +509,7 @@
                 Projektuar dhe zhvilluar me pasion për Festivalin e Shkencës 2026.
                 Një hap drejt së ardhmes së sigurisë.
             </p>
-            <div class="flex justify-center gap-6 mb-10">
-                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
-                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-            </div>
-            <div class="text-slate-600 text-sm font-medium">
-                &copy; 2026 FireBot Project. Të gjitha të drejtat e rezervuara.
-            </div>
-        </div>
+           </div>
     </footer>
 
     <script>
@@ -516,6 +555,24 @@
         window.addEventListener("scroll", reveal);
         // Trigger once on load
         reveal();
+		
+		/* Auto Apply Flame Effect */
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Apply to hero image
+    const heroImg = document.querySelector('.animate-float');
+    if(heroImg) heroImg.classList.add('flame-effect');
+
+    // Apply to component cards
+    const componentCards = document.querySelectorAll('#komponentet .group');
+    componentCards.forEach(card => card.classList.add('flame-effect'));
+
+    // Apply to buttons
+    const buttons = document.querySelectorAll('a.rounded-full');
+    buttons.forEach(btn => btn.classList.add('flame-effect'));
+
+});
+
     </script>
 </body>
 </html>
