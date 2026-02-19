@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="sq" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roboti Zjarrfikës IGNIS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        slate: {
+                            850: '#151f32',
+                            950: '#020617',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+        
+        body {
+            background-image: url('https://pixabay.com/get/g53673349f714bec484255f7451740aa07acc63db629e041b8b94ccddf34be8be8e057edfd0c1aee10ad27f2ad007e5813f6bf756c74c1a2fd7281ed139a2ecc9_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 6, 23, 0.85); /* Dark overlay for readability */
+            z-index: -1;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #fb923c, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animation classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white font-sans selection:bg-orange-500 selection:text-white overflow-x-hidden">
+    <div class="bg-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-orange-500 font-bold text-2xl tracking-tight">
+                    <div class="relative">
+                        <i data-lucide="flame" class="w-8 h-8 relative z-10"></i>
+                        <div class="absolute inset-0 bg-orange-500 blur-lg opacity-50"></div>
+                    </div>
+                    <span class="text-white">Ignis</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#kreu" class="text-sm font-medium text-slate-300 hover:text-orange-500 transition-colors">Kreu</a>
+                    <a href="#rreth" class="text-sm font-medium text-slate-300 hover:text-orange-500 transition-colors">Rreth Projektit</a>
+                    <a href="#komponentet" class="text-sm font-medium text-slate-300 hover:text-orange-500 transition-colors">Komponentët</a>
+                    <a href="#aplikimet" class="text-sm font-medium text-slate-300 hover:text-orange-500 transition-colors">Aplikimet</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menu-btn" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 backdrop-blur-xl border-t border-white/10 absolute w-full">
+            <div class="flex flex-col p-6 gap-4">
+                <a href="#kreu" class="text-lg font-medium text-slate-300 hover:text-orange-500 mobile-link">Kreu</a>
+                <a href="#rreth" class="text-lg font-medium text-slate-300 hover:text-orange-500 mobile-link">Rreth Projektit</a>
+                <a href="#komponentet" class="text-lg font-medium text-slate-300 hover:text-orange-500 mobile-link">Komponentët</a>
+                <a href="#aplikimet" class="text-lg font-medium text-slate-300 hover:text-orange-500 mobile-link">Aplikimet</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="kreu" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-950/80 to-slate-950 z-10"></div>
+            <img 
+                src="https://images.unsplash.com/photo-1586810147108-a23b62f9b396?auto=format&fit=crop&w=1920&q=80" 
+                alt="Background Fire" 
+                class="w-full h-full object-cover opacity-40 scale-105 animate-pulse-slow"
+            />
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2 space-y-8 reveal active">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 backdrop-blur-md">
+                        <i data-lucide="zap" class="w-4 h-4"></i>
+                        <span class="text-xs font-bold uppercase tracking-wider">Festivali i Shkencës 2026</span>
+                    </div>
+                    <h1 class="text-6xl lg:text-8xl font-bold leading-tight tracking-tight">
+                        Roboti Zjarrfikës <br/>
+                        <span class="text-gradient">IGNIS</span>
+                    </h1>
+                    <p class="text-xl text-slate-400 leading-relaxed max-w-xl border-l-2 border-orange-500/30 pl-6">
+                        Një zgjidhje autonome e gjeneratës së re për detektimin dhe shuarjen e zjarreve në kohë reale.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="#rreth" class="group px-8 py-4 bg-orange-600 hover:bg-orange-500 rounded-full font-bold transition-all shadow-lg shadow-orange-600/20 flex items-center gap-2">
+                            Zbulo Më Shumë 
+                            <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#komponentet" class="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full font-bold transition-all backdrop-blur-sm">
+                            Shiko Komponentët
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 relative reveal delay-200">
+                    <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl border border-white/10 group animate-float">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                        <img 
+                            src="https://images.unsplash.com/photo-1527430253228-e93688616381?auto=format&fit=crop&w=800&q=80" 
+                            alt="Robot Toy" 
+                            class="w-full h-auto transform group-hover:scale-105 transition-transform duration-700"
+                        />
+                    </div>
+                    <!-- Decorative elements -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-orange-500/20 rounded-full blur-[100px] -z-10"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-500">
+            <i data-lucide="chevron-down" class="w-8 h-8"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="rreth" class="py-32 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Rreth Projektit</h2>
+                <p class="text-slate-400 text-lg leading-relaxed">
+                    Ky projekt synon të demonstrojë se si robotika dhe automatizimi mund të përdoren për të shpëtuar jetë. Roboti ynë është i pajisur me sensorë inteligjentë që "shohin" zjarrin dhe reagojnë në milisekonda.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-card p-10 rounded-3xl hover:bg-white/10 transition-all duration-500 group reveal delay-100">
+                    <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-8 text-orange-500 group-hover:scale-110 transition-transform duration-500 border border-orange-500/20">
+                        <i data-lucide="flame" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Detektim i Flakës</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Përdor sensorë infra të kuq (IR) të kalibruar për të identifikuar burimet e nxehtësisë dhe zjarrit në një rreze të gjerë.
+                    </p>
+                </div>
+                <div class="glass-card p-10 rounded-3xl hover:bg-white/10 transition-all duration-500 group reveal delay-200">
+                    <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8 text-blue-500 group-hover:scale-110 transition-transform duration-500 border border-blue-500/20">
+                        <i data-lucide="cpu" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Autonomi e Plotë</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Drejtohet nga një mikrokontrollues Arduino që përpunon të dhënat dhe merr vendime lëvizjeje në kohë reale.
+                    </p>
+                </div>
+                <div class="glass-card p-10 rounded-3xl hover:bg-white/10 transition-all duration-500 group reveal delay-300">
+                    <div class="w-16 h-16 bg-green-500/10 rounded-2xl flex items-center justify-center mb-8 text-green-500 group-hover:scale-110 transition-transform duration-500 border border-green-500/20">
+                        <i data-lucide="droplets" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Shuarje e Zjarrit</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        Sistemi i pompimit aktivizohet automatikisht sapo roboti pozicionohet në distancën optimale nga flaka.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section id="komponentet" class="py-32 bg-slate-900/30 border-y border-white/5">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-20 text-center reveal">Komponentët Kryesorë</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Component 1 -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-100">
+                    <img 
+                        src="https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?auto=format&fit=crop&w=600&q=80" 
+                        alt="Arduino Uno" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Arduino Uno</h3>
+                        <p class="text-sm text-slate-300 font-medium">Truri Logjik</p>
+                    </div>
+                </div>
+
+                <!-- Component 2 -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-200">
+                    <img 
+                        src="https://images.unsplash.com/photo-1586810147108-a23b62f9b396?auto=format&fit=crop&w=600&q=80" 
+                        alt="Flame Sensor" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Sensori i Flakës</h3>
+                        <p class="text-sm text-slate-300 font-medium">Sytë IR</p>
+                    </div>
+                </div>
+
+                <!-- Component 3 -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-300">
+                    <img 
+                        src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?auto=format&fit=crop&w=600&q=80" 
+                        alt="Motor Driver" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Motor Driver</h3>
+                        <p class="text-sm text-slate-300 font-medium">Kontrolli i Lëvizjes</p>
+                    </div>
+                </div>
+
+                <!-- Component 4 -->
+                <div class="group relative overflow-hidden rounded-3xl aspect-square glass-card border-0 reveal delay-400">
+                    <img 
+                        src="https://images.unsplash.com/photo-1687788292176-4b6535c74ac7?auto=format&fit=crop&w=600&q=80" 
+                        alt="Water Pump" 
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold text-white mb-2">Pompa e Ujit</h3>
+                        <p class="text-sm text-slate-300 font-medium">Sistemi i Shuarjes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Parts List -->
+            <div class="mt-24 max-w-5xl mx-auto reveal">
+                <div class="glass-card rounded-3xl p-8 md:p-12 border border-white/10 relative overflow-hidden">
+                    <!-- Decorative background element -->
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2"></div>
+                    
+                    <h3 class="text-3xl font-bold mb-10 text-center text-white flex items-center justify-center gap-3">
+                        <i data-lucide="list-checks" class="w-8 h-8 text-orange-500"></i>
+                        Lista e Plotë e Pjesëve
+                    </h3>
+                    
+                    <ul class="grid md:grid-cols-2 gap-x-16 gap-y-6 text-lg text-slate-300 relative z-10">
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500 shrink-0">
+                                <i data-lucide="flame" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>3x</strong> Sensorë Flake IR (4 pin)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 shrink-0">
+                                <i data-lucide="cpu" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Arduino UNO</strong> (Mikrokontrollues)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-400 shrink-0">
+                                <i data-lucide="box" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Shasia</strong> (Chassis) e Robotit</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-500 shrink-0">
+                                <i data-lucide="settings" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>4x</strong> Motorë BO (+ Rrota)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-500 shrink-0">
+                                <i data-lucide="activity" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>L298</strong> Motor Driver</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 shrink-0">
+                                <i data-lucide="grid" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Breadboard</strong> (Pa saldim)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-500 shrink-0">
+                                <i data-lucide="move" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Mini Servo</strong> Motor</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-500 shrink-0">
+                                <i data-lucide="droplets" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Pompë Uji</strong> 5-9V (+ Tub)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center text-teal-500 shrink-0">
+                                <i data-lucide="container" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Rezervuar Uji</strong> / Shishe</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 shrink-0">
+                                <i data-lucide="battery-charging" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>2x</strong> Bateri 3.7V (18650)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-500 shrink-0">
+                                <i data-lucide="cable" class="w-5 h-5"></i>
+                            </div>
+                            <span><strong>Jumper Wires</strong> (Fije lidhëse)</span>
+                        </li>
+                        <li class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5">
+                            <div class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center text-orange-500 shrink-0">
+                                <i data-lucide="zap" class="w-5 h-5"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-bold">Qarku i Pompës</span>
+                                <span class="text-sm text-slate-400">TIP-122, 104pf, 1KΩ Resistor</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Applications Section -->
+    <section id="aplikimet" class="py-32">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-20">
+                <div class="lg:w-1/2 reveal">
+                    <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
+                        <img 
+                            src="https://images.unsplash.com/photo-1613929359366-ea94fe51d89f?auto=format&fit=crop&w=800&q=80" 
+                            alt="Firefighter Rescue" 
+                            class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-700"
+                        />
+                        <div class="absolute inset-0 bg-orange-500/20 mix-blend-overlay"></div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 space-y-10 reveal delay-200">
+                    <h2 class="text-4xl lg:text-5xl font-bold">Përdorimi në <br/><span class="text-gradient">Botën Reale</span></h2>
+                    <p class="text-slate-400 text-lg leading-relaxed">
+                        Ky prototip është hapi i parë drejt robotëve të avancuar që mund të zëvendësojnë njerëzit në situata me rrezik të lartë, duke rritur sigurinë dhe efikasitetin.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="glass-card p-6 rounded-2xl flex gap-6 items-center hover:border-red-500/30 transition-colors">
+                            <div class="w-14 h-14 bg-red-500/10 rounded-full flex items-center justify-center flex-shrink-0 text-red-500">
+                                <i data-lucide="shield" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Siguria Industriale</h4>
+                                <p class="text-slate-400 text-sm">Monitorim 24/7 në fabrika kimike dhe magazina.</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 rounded-2xl flex gap-6 items-center hover:border-orange-500/30 transition-colors">
+                            <div class="w-14 h-14 bg-orange-500/10 rounded-full flex items-center justify-center flex-shrink-0 text-orange-500">
+                                <i data-lucide="home" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Shtëpitë Inteligjente</h4>
+                                <p class="text-slate-400 text-sm">Integrim në sistemet Smart Home për parandalim.</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 rounded-2xl flex gap-6 items-center hover:border-blue-500/30 transition-colors">
+                            <div class="w-14 h-14 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0 text-blue-500">
+                                <i data-lucide="truck" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Ndërhyrja e Shpejtë</h4>
+                                <p class="text-slate-400 text-sm">Akses në zona të rrezikshme për njerëzit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950/80 backdrop-blur-md py-16 border-t border-white/5 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/50 to-transparent"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="flex items-center justify-center gap-3 text-orange-500 font-bold text-3xl mb-8">
+                <i data-lucide="flame" class="w-8 h-8"></i>
+                <span class="text-white">Ignis</span>
+            </div>
+            <p class="text-slate-500 mb-10 max-w-md mx-auto">
+                Projektuar dhe zhvilluar me pasion për Festivalin e Shkencës 2026.
+                Një hap drejt së ardhmes së sigurisë.
+            </p>
+            <div class="flex justify-center gap-6 mb-10">
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+            </div>
+            <div class="text-slate-600 text-sm font-medium">
+                &copy; 2026 FireBot Project. Të gjitha të drejtat e rezervuara.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const menuIcon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.setAttribute('data-lucide', 'menu');
+            } else {
+                menuIcon.setAttribute('data-lucide', 'x');
+            }
+            lucide.createIcons();
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // Scroll Reveal Animation
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger once on load
+        reveal();
+    </script>
+</body>
+</html>
